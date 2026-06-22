@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I have a question for you...</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #FFE5EC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            position: relative;
+        }
+        h1 {
+            color: #FB6F92;
+            font-size: 22px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .gif-placeholder {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            height: 50px;
+            position: relative;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        #yesBtn {
+            background-color: #FFB3C6;
+            color: white;
+        }
+        #yesBtn:hover {
+            transform: scale(1.1);
+            background-color: #FB6F92;
+        }
+        #noBtn {
+            background-color: #6C757D;
+            color: white;
+            position: absolute;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .activity-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .activity-item {
+            border: 2px solid #FFE5EC;
+            padding: 12px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #FFF0F3;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+        }
+        .activity-item:hover {
+            background: #FFC2D1;
+            transform: scale(1.02);
+        }
+        .activity-emoji {
+            font-size: 26px;
+        }
+        .activity-name {
+            font-size: 14px;
+            color: #FB6F92;
+            font-weight: bold;
+        }
+        input[type="date"], input[type="time"] {
+            padding: 10px;
+            border: 2px solid #FFB3C6;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+            color: #FB6F92;
+            width: 80%;
+        }
+        .submit-btn {
+            background-color: #FB6F92;
+            color: white;
+            margin-top: 20px;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="screen1" class="card">
+        <div class="gif-placeholder">🩷</div>
+        <h1>would you like to go on a date with me?<br><span style="font-size: 16px; font-weight: normal; color: #6C757D;">(please say yes)</span></h1>
+        <div class="btn-container">
+            <button id="yesBtn" onclick="nextScreen(2)">YES 💖</button>
+            <button id="noBtn" onmouseover="moveNoButton()" onclick="moveNoButton()">NO 😢</button>
+        </div>
+    </div>
+
+    <div id="screen2" class="card hidden">
+        <div class="gif-placeholder">🎉</div>
+        <h1>I knew you would say yes! 🥰</h1>
+        <p style="color: #6C757D;">When are you free?</p>
+        <input type="date" id="datePicker"><br>
+        <input type="time" id="timePicker"><br>
+        <button class="submit-btn" onclick="nextScreen(3)">Pick the plan! ➡️</button>
+    </div>
+
+    <div id="screen3" class="card hidden">
+        <h1>What are we doing? 🤔</h1>
+        <div class="activity-grid">
+            <div class="activity-item" onclick="selectActivity('pizza at the Bocadasse\'s beach 🍕')">
+                <div class="activity-emoji">🍕</div>
+                <div class="activity-name">pizza at the Bocadasse's beach</div>
+            </div>
+            <div class="activity-item" onclick="selectActivity('cinema date at my house (backrooms film ofc) 🎬')">
+                <div class="activity-emoji">🎬</div>
+                <div class="activity-name">cinema date at my house (backrooms film ofc)</div>
+            </div>
+            <div class="activity-item" onclick="selectActivity('a walk in the Nervi park + ice-cream 🍨')">
+                <div class="activity-emoji">🍨</div>
+                <div class="activity-name">a walk in the Nervi park + ice-cream</div>
+            </div>
+            <div class="activity-item" onclick="selectActivity('art date 🎨')">
+                <div class="activity-emoji">🎨</div>
+                <div class="activity-name">art date</div>
+            </div>
+            <div class="activity-item" onclick="selectActivity('whatever you want! 🩷')">
+                <div class="activity-emoji">🩷</div>
+                <div class="activity-name">whatever you want!</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen4" class="card hidden">
+        <div class="gif-placeholder">🚗</div>
+        <h1>Perfect, I can't wait!</h1>
+        <p id="summaryText" style="color: #FB6F92; font-weight: bold; font-size: 16px; margin: 20px 0; line-height: 1.5;"></p>
+        <p style="color: #6C757D; font-size: 14px;">Take a screenshot of this screen and send it to me! Made with love. ❤️</p>
+    </div>
+
+    <script>
+        let chosenDate = "";
+        let chosenTime = "";
+
+        function moveNoButton() {
+            const noBtn = document.getElementById('noBtn');
+            const card = document.querySelector('.card');
+            
+            const padding = 20;
+            const maxX = card.clientWidth - noBtn.clientWidth - padding;
+            const maxY = card.clientHeight - noBtn.clientHeight - padding;
+            
+            const randomX = Math.floor(Math.random() * maxX) - (card.clientWidth / 4);
+            const randomY = Math.floor(Math.random() * maxY) - (card.clientHeight / 3);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function nextScreen(screenNum) {
+            if(screenNum === 3) {
+                chosenDate = document.getElementById('datePicker').value;
+                chosenTime = document.getElementById('timePicker').value;
+                if(!chosenDate || !chosenTime) {
+                    alert("Please select a date and time before continuing! 📅");
+                    return;
+                }
+            }
+            
+            document.getElementById('screen1').classList.add('hidden');
+            document.getElementById('screen2').classList.add('hidden');
+            document.getElementById('screen3').classList.add('hidden');
+            document.getElementById('screen4').classList.add('hidden');
+            
+            document.getElementById('screen' + screenNum).classList.remove('hidden');
+        }
+
+        function selectActivity(activity) {
+            const dateObj = new Date(chosenDate);
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            // Mantiene la data formattata in italiano per comodità di lettura sul calendario del telefono
+            const formattedDate = dateObj.toLocaleDateString('it-IT', options);
+
+            const finalPreposition = activity.includes('whatever') ? 'for' : 'for:';
+            const finalText = `Our date is set for ${formattedDate} at ${chosenTime} ${finalPreposition} ${activity}!`;
+            document.getElementById('summaryText').innerText = finalText;
+            
+            nextScreen(4);
+        }
+    </script>
+</body>
+</html>
